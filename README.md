@@ -7,8 +7,8 @@ Rob's version of https://github.com/originalankur/maptoposter.git
 
 Generate beautiful, minimalist map posters for any city in the world.
 
-<img src="posters/singapore_neon_cyberpunk_20260118_153328.png" width="250">
-<img src="posters/dubai_midnight_blue_20260118_140807.png" width="250">
+<img src="https://github.com/originalankur/maptoposter/tree/main/posters/singapore_neon_cyberpunk_20260118_153328.png" width="250">
+<img src="posters/edmonton.png" width="250">
 
 ## Examples
 
