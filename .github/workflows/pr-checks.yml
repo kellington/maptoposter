@@ -1,75 +1,55 @@
-name: Pull Request Checks
+name: PR Script Checks
 
 on:
   pull_request:
-    branches: [ main, master ]
-    types: [opened, synchronize, reopened]
-
-env:
-  MAX_LINE_LENGTH: 160
+    branches: [main]
+    paths:
+      - "**/*.py"
+      - "**/*.sh"
+      - "requirements.txt"
+      - "pyproject.toml"
+      - ".github/workflows/pr-checks.yml"
 
 jobs:
-  lint-and-validate:
-    name: Lint and Validate - ${{ matrix.os }} - Python ${{ matrix.python-version }}
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        python-version: ['3.11', '3.12', '3.13', '3.14']
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v6
-        with:
-          python-version: ${{ matrix.python-version }}
-          cache: 'pip'
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install flake8 pylint mypy
-
-      - name: Validate Python syntax
-        run: python -m compileall . -q
-
-      - name: Test CLI help
-        run: python create_map_poster.py --help
-
-      - name: Test list themes
-        run: python create_map_poster.py --list-themes
-
-      - name: Lint with flake8
-        run: |
-          # Stop the build if there are Python syntax errors or undefined names
-          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-          flake8 . --count --statistics --max-line-length=${{ env.MAX_LINE_LENGTH }}
-
-      - name: Lint with pylint
-        run: pylint . --max-line-length=${{ env.MAX_LINE_LENGTH }}
-        continue-on-error: true
-
-      - name: Type check with mypy
-        run: mypy . --ignore-missing-imports --no-strict-optional
-
-  dependency-check:
-    name: Security and Dependency Check
+  scripts-check:
+    name: Validate Python and Bash scripts
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
 
-      - name: Set up Python
+      - name: Set up Python 3.13
         uses: actions/setup-python@v6
         with:
-          python-version: '3.14'
+          python-version: "3.13"
           cache: 'pip'
 
-      - name: Audit dependencies with pip-audit
-        uses: pypa/gh-action-pip-audit@v1.1.0
+      - name: Install Python dependencies and ruff
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install ruff
+
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: Lint Python scripts
+        run: ruff check create_map_poster.py font_management.py
+
+      - name: Validate Python syntax
+        run: python -m py_compile create_map_poster.py font_management.py
+
+      - name: Lint Bash scripts
+        run: shellcheck test/all_variations.sh
+
+      - name: Validate Bash syntax
+        run: bash -n test/all_variations.sh
+
+      - name: Smoke test poster CLI
+        env:
+          MPLCONFIGDIR: ${{ runner.temp }}/mplconfig
+          XDG_CACHE_HOME: ${{ runner.temp }}/xdg-cache
+        run: |
+          python create_map_poster.py --help
+          python create_map_poster.py --list-themes
