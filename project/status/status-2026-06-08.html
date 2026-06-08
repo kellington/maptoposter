@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>maptoposter — Project Status 2026-06-08</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #f9fafb;
+    color: #1e293b;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: #1e293b;
+    color: #f8fafc;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .header-title { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+  .header-tagline { color: #94a3b8; font-size: 13px; flex: 1; }
+  .badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 12px;
+    white-space: nowrap;
+  }
+  .badge-utility { background: #0d9488; color: #fff; }
+  .badge-fork    { background: #334155; color: #94a3b8; border: 1px solid #475569; }
+  .badge-date    { background: #d97706; color: #fff; }
+
+  /* ── Layout ── */
+  .main { max-width: 960px; margin: 0 auto; padding: 24px 24px 48px; }
+
+  /* ── Cards ── */
+  .card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .card h2 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .card h3 { font-size: 13px; font-weight: 700; color: #475569; margin: 14px 0 6px; }
+
+  /* ── Snapshot pills ── */
+  .pills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid #e5e7eb;
+    background: #f8fafc;
+  }
+  .pill-label { color: #94a3b8; font-size: 11px; }
+  .pill-value { color: #1e293b; font-weight: 600; }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .dot-teal   { background: #0d9488; }
+  .dot-amber  { background: #d97706; }
+  .dot-slate  { background: #64748b; }
+  .dot-green  { background: #16a34a; }
+  .dot-red    { background: #dc2626; }
+
+  /* ── Code blocks ── */
+  .cmd-block {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 8px 0;
+    font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+    font-size: 12.5px;
+    color: #e2e8f0;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .cmd-comment { color: #64748b; }
+  .cmd-flag    { color: #0d9488; }
+  .cmd-string  { color: #fbbf24; }
+
+  /* ── Tables ── */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; color: #64748b; font-weight: 600; padding: 6px 10px; border-bottom: 1px solid #e5e7eb; }
+  td { padding: 6px 10px; border-bottom: 1px solid #f1f5f9; }
+  tr:last-child td { border-bottom: none; }
+  td code {
+    background: #f1f5f9;
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+    font-size: 12px;
+    color: #0d9488;
+  }
+
+  /* ── Two-column vision vs reality ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+  .col-vision {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-left: 4px solid #0d9488;
+    border-radius: 6px;
+    padding: 14px 16px;
+  }
+  .col-reality {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-left: 4px solid #d97706;
+    border-radius: 6px;
+    padding: 14px 16px;
+  }
+  .col-vision h3, .col-reality h3 {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 10px;
+    border-bottom: none;
+    padding-bottom: 0;
+    color: inherit;
+  }
+  .col-vision h3 { color: #0d9488; }
+  .col-reality h3 { color: #d97706; }
+  .col-vision pre, .col-reality pre {
+    font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+    font-size: 11.5px;
+    line-height: 1.7;
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .col-vision pre { color: #166534; }
+  .col-reality pre { color: #92400e; }
+  .reality-note { font-size: 13px; color: #78350f; line-height: 1.6; }
+
+  /* ── Gotchas ── */
+  .gotcha {
+    border-left: 4px solid #d97706;
+    background: #fffbeb;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    border-radius: 0 4px 4px 0;
+    font-size: 13px;
+  }
+  .gotcha strong { color: #92400e; }
+
+  /* ── Next steps ── */
+  .path { margin-bottom: 16px; }
+  .path-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    margin-bottom: 6px;
+  }
+  ol { padding-left: 18px; }
+  ol li { margin-bottom: 4px; font-size: 13px; }
+
+  /* ── Theme grid ── */
+  .theme-table { columns: 2; column-gap: 20px; }
+  .theme-table table { break-inside: avoid; }
+
+  /* ── Para ── */
+  p { font-size: 13px; line-height: 1.7; color: #374151; }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    font-size: 11px;
+    color: #94a3b8;
+    padding: 20px;
+    border-top: 1px solid #e5e7eb;
+    margin-top: 8px;
+  }
+
+  /* ── Section label ── */
+  .section-num {
+    display: inline-block;
+    background: #1e293b;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 10px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── 1. Header ── -->
+<div class="header">
+  <span class="header-title">maptoposter</span>
+  <span class="header-tagline">Generate minimalist city map posters from OpenStreetMap data</span>
+  <span class="badge badge-utility">Personal Utility — Run When Needed</span>
+  <span class="badge badge-fork">Fork of originalankur/maptoposter</span>
+  <span class="badge badge-date">2026-06-08</span>
+</div>
+
+<div class="main">
+
+  <!-- ── 2. Snapshot pills ── -->
+  <div class="card">
+    <h2><span class="section-num">2</span> Snapshot</h2>
+    <div class="pills">
+      <div class="pill"><span class="pill-dot dot-teal"></span><span class="pill-label">Language</span><span class="pill-value">Python + uv</span></div>
+      <div class="pill"><span class="pill-dot dot-teal"></span><span class="pill-label">Data Source</span><span class="pill-value">OpenStreetMap (OSMnx + Nominatim)</span></div>
+      <div class="pill"><span class="pill-dot dot-teal"></span><span class="pill-label">Output</span><span class="pill-value">PNG poster → posters/</span></div>
+      <div class="pill"><span class="pill-dot dot-green"></span><span class="pill-label">Themes</span><span class="pill-value">17 built-in</span></div>
+      <div class="pill"><span class="pill-dot dot-red"></span><span class="pill-label">Automation layer</span><span class="pill-value">Not built</span></div>
+      <div class="pill"><span class="pill-dot dot-slate"></span><span class="pill-label">Last commit</span><span class="pill-value">Create diary-2026-06.md</span></div>
+      <div class="pill"><span class="pill-dot dot-slate"></span><span class="pill-label">Posters generated</span><span class="pill-value">None in repo (gitignored)</span></div>
+    </div>
+  </div>
+
+  <!-- ── 3. What It Does ── -->
+  <div class="card">
+    <h2><span class="section-num">3</span> What It Does</h2>
+    <p>
+      A tool to generate minimalist, print-quality city map posters. Give it a city and country,
+      it fetches OpenStreetMap road, water, and parks data via OSMnx, renders it with matplotlib using
+      a chosen colour theme, and saves a PNG. Supports 17 built-in themes, multilingual city labels
+      (Japanese, Arabic, Thai, Korean, etc.), custom coordinate overrides, and configurable size and
+      resolution. Output lands in <code style="background:#f1f5f9;padding:1px 5px;border-radius:3px;font-family:monospace;color:#0d9488;">posters/</code>
+      named <code style="background:#f1f5f9;padding:1px 5px;border-radius:3px;font-family:monospace;color:#0d9488;">{city}_{theme}_{timestamp}.png</code>.
+      The rendering pipeline is: CLI → Nominatim geocoding → OSMnx data fetch → matplotlib layers → PNG.
+    </p>
+  </div>
+
+  <!-- ── 4. How to Generate ── -->
+  <div class="card">
+    <h2><span class="section-num">4</span> How to Generate a Poster</h2>
+    <p style="margin-bottom:12px; color:#64748b; font-size:12px;">This is the most useful section — all commands are copy-paste ready.</p>
+
+    <h3>Default theme (terracotta)</h3>
+    <div class="cmd-block"><span class="cmd-comment"># Edmonton with default theme</span>
+uv run ./create_map_poster.py <span class="cmd-flag">--city</span> <span class="cmd-string">"Edmonton"</span> <span class="cmd-flag">--country</span> <span class="cmd-string">"Canada"</span></div>
+
+    <h3>Specific theme + distance</h3>
+    <div class="cmd-block">uv run ./create_map_poster.py <span class="cmd-flag">--city</span> <span class="cmd-string">"Paris"</span> <span class="cmd-flag">--country</span> <span class="cmd-string">"France"</span> <span class="cmd-flag">--theme</span> noir <span class="cmd-flag">--distance</span> 10000</div>
+
+    <h3>All 17 themes at once (comparison sheet)</h3>
+    <div class="cmd-block">uv run ./create_map_poster.py <span class="cmd-flag">--city</span> <span class="cmd-string">"Tokyo"</span> <span class="cmd-flag">--country</span> <span class="cmd-string">"Japan"</span> <span class="cmd-flag">--all-themes</span></div>
+
+    <h3>List available themes</h3>
+    <div class="cmd-block">uv run ./create_map_poster.py <span class="cmd-flag">--list-themes</span></div>
+
+    <h3>Custom size (A4 print)</h3>
+    <div class="cmd-block">uv run ./create_map_poster.py <span class="cmd-flag">--city</span> <span class="cmd-string">"Venice"</span> <span class="cmd-flag">--country</span> <span class="cmd-string">"Italy"</span> <span class="cmd-flag">--theme</span> blueprint <span class="cmd-flag">-W</span> 8.3 <span class="cmd-flag">-H</span> 11.7</div>
+
+    <h3>Override coordinates (ambiguous location)</h3>
+    <div class="cmd-block">uv run ./create_map_poster.py <span class="cmd-flag">--city</span> <span class="cmd-string">"Stanley Park"</span> <span class="cmd-flag">--country</span> <span class="cmd-string">"Canada"</span> \
+  <span class="cmd-flag">-lat</span> 49.3043 <span class="cmd-flag">-long</span> -123.1443 <span class="cmd-flag">--theme</span> forest</div>
+
+    <h3>Multilingual labels</h3>
+    <div class="cmd-block">uv run ./create_map_poster.py <span class="cmd-flag">--city</span> <span class="cmd-string">"Tokyo"</span> <span class="cmd-flag">--country</span> <span class="cmd-string">"Japan"</span> \
+  <span class="cmd-flag">--display-city</span> <span class="cmd-string">"東京"</span> <span class="cmd-flag">--display-country</span> <span class="cmd-string">"日本"</span> \
+  <span class="cmd-flag">--font-family</span> <span class="cmd-string">"Noto Sans JP"</span> <span class="cmd-flag">--theme</span> japanese_ink</div>
+
+    <h3>Quick preview (150 DPI, faster)</h3>
+    <div class="cmd-block"><span class="cmd-comment"># No DPI flag in CLI — reduce --distance instead for speed</span>
+uv run ./create_map_poster.py <span class="cmd-flag">--city</span> <span class="cmd-string">"Vancouver"</span> <span class="cmd-flag">--country</span> <span class="cmd-string">"Canada"</span> <span class="cmd-flag">-d</span> 8000</div>
+
+    <h3>Resolution reference</h3>
+    <table>
+      <tr><th>Target</th><th>Resolution</th><th>-W / -H</th></tr>
+      <tr><td>Instagram Post</td><td>1080 × 1080</td><td><code>3.6 / 3.6</code></td></tr>
+      <tr><td>Mobile Wallpaper</td><td>1080 × 1920</td><td><code>3.6 / 6.4</code></td></tr>
+      <tr><td>4K Wallpaper</td><td>3840 × 2160</td><td><code>12.8 / 7.2</code></td></tr>
+      <tr><td>A4 Print</td><td>2480 × 3508</td><td><code>8.3 / 11.7</code></td></tr>
+    </table>
+  </div>
+
+  <!-- ── 5. Available Themes ── -->
+  <div class="card">
+    <h2><span class="section-num">5</span> Available Themes (17)</h2>
+    <table>
+      <tr><th>Theme</th><th>Style</th><th>Theme</th><th>Style</th></tr>
+      <tr>
+        <td><code>terracotta</code></td><td>Mediterranean warmth (default)</td>
+        <td><code>noir</code></td><td>Pure black, white roads</td>
+      </tr>
+      <tr>
+        <td><code>midnight_blue</code></td><td>Navy + gold roads</td>
+        <td><code>blueprint</code></td><td>Architectural blueprint</td>
+      </tr>
+      <tr>
+        <td><code>neon_cyberpunk</code></td><td>Dark + electric pink/cyan</td>
+        <td><code>warm_beige</code></td><td>Vintage sepia</td>
+      </tr>
+      <tr>
+        <td><code>pastel_dream</code></td><td>Soft muted pastels</td>
+        <td><code>japanese_ink</code></td><td>Minimalist ink wash</td>
+      </tr>
+      <tr>
+        <td><code>emerald</code></td><td>Dark green</td>
+        <td><code>forest</code></td><td>Deep greens + sage</td>
+      </tr>
+      <tr>
+        <td><code>ocean</code></td><td>Blues + teals</td>
+        <td><code>sunset</code></td><td>Warm oranges + pinks</td>
+      </tr>
+      <tr>
+        <td><code>autumn</code></td><td>Burnt oranges + reds</td>
+        <td><code>copper_patina</code></td><td>Oxidized copper</td>
+      </tr>
+      <tr>
+        <td><code>monochrome_blue</code></td><td>Single blue family</td>
+        <td><code>gradient_roads</code></td><td>Smooth gradient shading</td>
+      </tr>
+      <tr>
+        <td><code>contrast_zones</code></td><td>High contrast density</td>
+        <td></td><td></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ── 6. Distance Guide ── -->
+  <div class="card">
+    <h2><span class="section-num">6</span> Distance Guide</h2>
+    <table>
+      <tr><th>Distance</th><th>Best for</th></tr>
+      <tr><td>4000–6000 m</td><td>Small/dense cities (Venice, Amsterdam)</td></tr>
+      <tr><td>8000–12000 m</td><td>Medium cities, downtown focus (Paris, Barcelona)</td></tr>
+      <tr><td>15000–20000 m</td><td>Large metros, full city view (Tokyo, Mumbai)</td></tr>
+    </table>
+    <p style="margin-top:10px; color:#64748b; font-size:12px;">Default: 18000 m. Larger values = slower download + render.</p>
+  </div>
+
+  <!-- ── 7. Automation Vision vs. Current State ── -->
+  <div class="card">
+    <h2><span class="section-num">7</span> Automation Vision vs. Current State</h2>
+    <p style="margin-bottom:14px;">AGENTS.md documents a personal automation layer for batch-generating vacation posters. Here is the gap honestly.</p>
+    <div class="two-col">
+      <div class="col-vision">
+        <h3>The Vision (AGENTS.md)</h3>
+        <pre>data/
+  locations.yaml     ← trip catalogue
+
+scripts/
+  generate_one.py    ← one poster from args
+  generate_trip.py   ← all posters for a trip
+  generate_all.py    ← every entry in YAML
+  validate_locations.py
+
+output/
+  2024-vancouver/
+    vancouver-canada-emerald.png
+  2025-italy/
+    venice-italy-blueprint.png</pre>
+      </div>
+      <div class="col-reality">
+        <h3>What Actually Exists</h3>
+        <div class="reality-note">
+          <strong>No <code style="color:#92400e;">scripts/</code> directory.</strong><br>
+          No <code style="color:#92400e;">data/locations.yaml</code>.<br>
+          No <code style="color:#92400e;">output/</code> trip folders.<br>
+          <br>
+          The base engine works — the trip/location automation layer is planned but not started. The tool runs fine as a one-off CLI command.<br>
+          <br>
+          <strong>Diary note (2026-06-08):</strong> "commit prior to adjusting for common project framework" — this session may be the starting point.
+        </div>
+      </div>
+    </div>
+    <p style="margin-top:14px; font-size:13px; color:#475569;">
+      <strong>Conclusion:</strong> The tool works today as a single CLI command. Building the vacation-poster batch workflow (AGENTS.md) is a natural next step if poster generation becomes a regular activity.
+    </p>
+  </div>
+
+  <!-- ── 8. Gotchas ── -->
+  <div class="card">
+    <h2><span class="section-num">8</span> Gotchas</h2>
+    <div class="gotcha"><strong>Requires internet.</strong> Nominatim (geocoding) and OSMnx (road data) both hit the network on every run. No offline mode.</div>
+    <div class="gotcha"><strong>Large distance = slow.</strong> <code>--distance 20000</code> fetches a lot of OSM data. For quick previews, reduce distance rather than expecting a fast render.</div>
+    <div class="gotcha"><strong>Ambiguous cities.</strong> Small towns, parks, and landmarks may not geocode correctly. Use <code>--latitude</code> / <code>--longitude</code> to override the centre point.</div>
+    <div class="gotcha"><strong>Posters aren't committed.</strong> <code>posters/</code> is gitignored — regenerate from the CLI when you need them again.</div>
+    <div class="gotcha"><strong>Nominatim rate limits.</strong> Running <code>--all-themes</code> on multiple cities in a tight loop can hit rate limits. Add short delays between runs.</div>
+    <div class="gotcha"><strong>First run is slower.</strong> <code>uv run</code> creates a virtual environment and installs dependencies on first execution. Subsequent runs are fast.</div>
+  </div>
+
+  <!-- ── 9. Next Session ── -->
+  <div class="card">
+    <h2><span class="section-num">9</span> Next Session — What to Do</h2>
+    <div class="two-col">
+      <div class="path">
+        <div class="path-label" style="color:#0d9488;">Path A — Just want a poster now</div>
+        <p style="font-size:13px; color:#374151;">Run the command from Section 4 with your chosen city and theme. Done in 30–60 seconds. Output goes to <code style="background:#f1f5f9;padding:1px 5px;border-radius:3px;font-family:monospace;font-size:12px;color:#0d9488;">posters/</code>.</p>
+      </div>
+      <div class="path">
+        <div class="path-label" style="color:#d97706;">Path B — Build the vacation automation layer</div>
+        <ol>
+          <li>Create <code style="background:#f1f5f9;padding:1px 5px;border-radius:3px;font-family:monospace;font-size:12px;">data/locations.yaml</code> with 3–5 known trip locations</li>
+          <li>Write <code style="background:#f1f5f9;padding:1px 5px;border-radius:3px;font-family:monospace;font-size:12px;">scripts/generate_trip.py</code> to batch-generate from YAML</li>
+          <li>Test with one trip first</li>
+          <li>Read AGENTS.md — the full schema and script expectations are already written</li>
+        </ol>
+      </div>
+    </div>
+    <p style="margin-top: 12px; font-size: 12px; color: #64748b;">Diary note: today's commit says "prior to adjusting for common project framework" — the automation layer is the natural next build target.</p>
+  </div>
+
+  <!-- ── Footer ── -->
+  <div class="footer">
+    Generated 2026-06-08 &nbsp;·&nbsp; maptoposter &nbsp;·&nbsp; Personal Python utility &nbsp;·&nbsp; derived from README.md, AGENTS.md, diary, git log
+  </div>
+
+</div>
+</body>
+</html>
