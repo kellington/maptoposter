@@ -191,3 +191,25 @@ Run the command above with your chosen city and theme. Done in 30–60 seconds.
 - Check `ls posters/` for any generated output — if present, note it; if empty, say so
 - The "How to Generate" section is the most valuable part — keep it complete and copy-paste ready
 - After writing the file, confirm the path and list the sections included
+
+## Also write STATUS-SUMMARY.md
+
+After writing the HTML file, write (or overwrite) a summary file at `project/status/STATUS-SUMMARY.md` (create the directory if it doesn't exist).
+
+Use this exact format — YAML frontmatter only, no markdown body:
+
+```
+---
+name: maptoposter
+tagline: <one sentence — what this project is, derived from the files you just read>
+group: Utilities
+profile: Utility
+priority: 12
+status: <one sentence — the most important thing about current state right now>
+generated: <today's date YYYY-MM-DD>
+---
+```
+
+- `tagline`: purpose of the project — stable, changes rarely
+- `status`: current state — stable/active/last run date
+- Overwrite every run — no date suffix, always one file
