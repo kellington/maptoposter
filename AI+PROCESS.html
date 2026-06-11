@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI + Process — Human-directed project notes</title>
+<style>
+  :root {
+    --navy: #16263d;
+    --blue: #2e6ca4;
+    --teal: #1c7c74;
+    --green: #3a8a3f;
+    --ink: #243240;
+    --muted: #6b7a8a;
+    --rule: #dde4ea;
+    --bg: #ffffff;
+    --bg-soft: #f5f8fa;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+  }
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+  header.brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0 2rem;
+    border-bottom: 3px solid var(--navy);
+    margin-bottom: 2.5rem;
+  }
+  header.brand svg { width: 240px; height: auto; }
+  h1 {
+    color: var(--navy);
+    font-size: 2rem;
+    margin: 1.2rem 0 0;
+    letter-spacing: 0.02em;
+  }
+  .subtitle {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5em;
+    margin: 1rem 0 0;
+    padding: 0.45rem 1.1rem;
+    background: var(--bg-soft);
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--blue);
+    border-radius: 0 6px 6px 0;
+  }
+  .subtitle .label {
+    color: var(--muted);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+  .subtitle .name {
+    color: var(--navy);
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+  h2 {
+    color: var(--navy);
+    font-size: 1.25rem;
+    margin: 2.2rem 0 0.2rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--rule);
+  }
+  h2::before {
+    content: "";
+    display: inline-block;
+    width: 0.55em;
+    height: 0.55em;
+    margin-right: 0.5em;
+    border-radius: 50%;
+    background: var(--blue);
+  }
+  .descriptor {
+    color: var(--muted);
+    font-style: italic;
+    font-size: 0.9rem;
+    margin: 0 0 0.7rem;
+  }
+  p { margin: 0.5rem 0 1rem; }
+  ul { margin: 0.4rem 0 1rem; padding-left: 1.4rem; }
+  li { margin: 0.25rem 0; }
+  li code, p code {
+    background: var(--bg-soft);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 0.05em 0.35em;
+    font-size: 0.9em;
+  }
+  .bottom-line {
+    background: var(--bg-soft);
+    border-left: 4px solid var(--green);
+    border-radius: 0 6px 6px 0;
+    padding: 1rem 1.2rem;
+    margin-top: 0.8rem;
+  }
+  footer.meta {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  strong { color: var(--navy); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="brand">
+    <!-- AI + PROCESS logo (inline SVG, no external assets) -->
+    <svg viewBox="0 0 360 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI plus Process — Human-directed project notes">
+      <!-- open circle with endpoint dots -->
+      <path d="M 238.4 44.7 A 117 117 0 1 0 274.3 195.3"
+            fill="none" stroke="#16263d" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="238.4" cy="44.7" r="8" fill="#16263d"/>
+      <circle cx="274.3" cy="195.3" r="8" fill="#16263d"/>
+      <!-- wordmark -->
+      <text x="96" y="128" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
+            font-size="72" font-weight="700" fill="#2e6ca4">AI</text>
+      <text x="186" y="128" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
+            font-size="64" font-weight="700" fill="#1c7c74">+</text>
+      <text x="92" y="182" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
+            font-size="38" font-weight="700" letter-spacing="1.5" fill="#16263d">PROCESS</text>
+      <!-- dotted line and arrow -->
+      <circle cx="122" cy="212" r="4.5" fill="#1c7c74"/>
+      <circle cx="140" cy="212" r="4.5" fill="#1c7c74"/>
+      <circle cx="158" cy="212" r="4.5" fill="#1c7c74"/>
+      <circle cx="176" cy="212" r="4.5" fill="#1c7c74"/>
+      <g stroke="#3a8a3f" stroke-width="5" stroke-linecap="round" fill="none">
+        <line x1="194" y1="212" x2="232" y2="212"/>
+        <polyline points="220,200 234,212 220,224"/>
+      </g>
+      <!-- tagline -->
+      <text x="180" y="312" text-anchor="middle"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
+            font-size="24" fill="#243240">Human-directed project notes</text>
+    </svg>
+    <h1>AI + Process</h1>
+    <p class="subtitle"><span class="label">Project</span><span class="name">maptoposter</span></p>
+  </header>
+
+  <main>
+    <h2>Project Snapshot</h2>
+    <p class="descriptor">What the project is, who it is for, and what problem it addresses.</p>
+    <p>This is an open-source project that I want to customize and use to create maps of all the places that Lucie and I vacation.</p>
+
+    <h2>The AI Approach</h2>
+    <p class="descriptor">The practical reasons AI tools or agents were included in this project.</p>
+    <p>Just use AI to help tweak the code/config to get the images I want.</p>
+
+    <h2>How AI Supported the Work</h2>
+    <p class="descriptor">Where AI helped with planning, design, coding, analysis, testing, documentation, or review.</p>
+
+    <h2>Where Human Judgment Mattered</h2>
+    <p class="descriptor">The decisions, corrections, constraints, and tradeoffs that required experience and direction.</p>
+
+    <h2>Key Process Decisions</h2>
+    <p class="descriptor">The important choices that shaped scope, architecture, data, workflow, user experience, or delivery.</p>
+
+    <h2>Quality and Confidence Checks</h2>
+    <p class="descriptor">How the work was reviewed, tested, validated, simplified, or improved.</p>
+
+    <h2>What Worked Well</h2>
+    <p class="descriptor">The AI-assisted patterns or workflows that produced useful results.</p>
+
+    <h2>What Needed Caution</h2>
+    <p class="descriptor">Where AI was weak, misleading, incomplete, overconfident, or required close supervision.</p>
+
+    <h2>Reusable Lessons</h2>
+    <p class="descriptor">What could be applied to other projects, teams, or client situations.</p>
+
+    <h2>Current Status and Next Steps</h2>
+    <p class="descriptor">What is complete, what remains, and where the project could go next.</p>
+
+    <h2>Bottom Line</h2>
+    <p class="descriptor">The short version: what this project demonstrates about using AI responsibly and practically.</p>
+    <div class="bottom-line">
+      <p style="margin:0;"></p>
+    </div>
+  </main>
+
+  <footer class="meta">
+    <strong>LAST UPDATE:</strong> 2026-06-11
+  </footer>
+
+</div>
+</body>
+</html>
