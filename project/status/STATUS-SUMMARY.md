@@ -4,6 +4,6 @@ tagline: A personal fork of originalankur/maptoposter that generates minimalist,
 group: Utilities
 profile: Utility
 priority: 12
-status: The base CLI engine works for one-off poster generation; the AGENTS.md vacation-automation layer (locations.yaml + scripts/) is planned but not started — no scripts/ dir, no posters generated yet.
-generated: 2026-06-11
+status: Dormant since 2026-06-11 — base CLI works for one-off posters; the AGENTS.md vacation-automation layer (locations.yaml + scripts/) is still not started and no posters have been generated.
+generated: 2026-09-17
 ---
