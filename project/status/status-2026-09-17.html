@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>maptoposter status</title>
+<style>
+  :root {
+    --slate: #1e293b; --teal: #0d9488; --amber: #d97706; --green: #16a34a;
+    --bg: #f9fafb; --card: #fff; --border: #e5e7eb; --muted: #64748b; --text: #1e293b;
+    --code-bg: #0f172a; --code-text: #e2e8f0;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+    font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  header { background: var(--slate); color: #fff; padding: 12px 16px; }
+  .hwrap, main, footer { max-width: 980px; margin: 0 auto; }
+  .hwrap { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+  header h1 { margin: 0; font-size: 18px; letter-spacing: .2px; }
+  header .tag { color: #cbd5e1; font-size: 13px; flex: 1 1 260px; }
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+  .b-teal { background: var(--teal); color: #fff; }
+  .b-amber { background: var(--amber); color: #fff; }
+  .b-date { border: 1px solid #475569; color: #cbd5e1; }
+  main { padding: 16px; }
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .pill { background: var(--card); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; font-size: 12px; }
+  .pill b { color: var(--muted); font-weight: 600; margin-right: 4px; }
+  .pill.warn { border-color: var(--amber); }
+  .pill.warn span { color: var(--amber); font-weight: 600; }
+  section.card { background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04); padding: 14px 16px; margin-bottom: 14px; }
+  h2 { font-size: 15px; margin: 0 0 10px; color: var(--slate); }
+  h2 .n { color: var(--teal); margin-right: 6px; }
+  h3 { font-size: 13px; margin: 12px 0 4px; color: var(--slate); }
+  p { margin: 6px 0; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px;
+    background: #f1f5f9; padding: 1px 4px; border-radius: 3px; }
+  pre { background: var(--code-bg); color: var(--code-text); border-radius: 6px; padding: 10px 12px;
+    margin: 4px 0 10px; overflow-x: auto; font-size: 12.5px; line-height: 1.45; }
+  pre code { background: none; padding: 0; color: inherit; font-size: inherit; }
+  .howto { border-left: 4px solid var(--teal); }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 12px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
+  .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .vs > div { border-radius: 6px; padding: 10px 12px; }
+  .vision { border: 1px solid var(--teal); background: #f0fdfa; }
+  .reality { border: 1px solid var(--amber); background: #fffbeb; }
+  .vision h3 { color: var(--teal); margin-top: 0; }
+  .reality h3 { color: var(--amber); margin-top: 0; }
+  .vs pre { font-size: 11.5px; }
+  ul { margin: 4px 0; padding-left: 18px; }
+  li { margin: 2px 0; }
+  .x { color: var(--amber); font-weight: 700; }
+  .ok { color: var(--green); font-weight: 700; }
+  .gotchas { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .gotcha { border: 1px solid var(--border); border-left: 4px solid var(--amber); border-radius: 4px; padding: 6px 10px; font-size: 13px; }
+  .gotcha b { display: block; }
+  .paths { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .path { border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; }
+  .path.a { border-top: 3px solid var(--green); }
+  .path.b { border-top: 3px solid var(--teal); }
+  .conclusion { margin-top: 10px; font-size: 13px; }
+  footer { color: var(--muted); font-size: 12px; text-align: center; padding: 8px 16px 24px; }
+  @media (max-width: 700px) {
+    .grid2, .vs, .gotchas, .paths { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hwrap">
+    <h1>maptoposter</h1>
+    <span class="tag">Generate minimalist city map posters from OpenStreetMap data</span>
+    <span class="badge b-teal">Personal Utility — Run When Needed</span>
+    <span class="badge b-amber">Fork of originalankur/maptoposter</span>
+    <span class="badge b-date">2026-09-17</span>
+  </div>
+</header>
+
+<main>
+
+  <div class="pills">
+    <span class="pill"><b>Language</b>Python + uv</span>
+    <span class="pill"><b>Data</b>OpenStreetMap (OSMnx + Nominatim)</span>
+    <span class="pill"><b>Output</b>PNG / SVG / PDF → <code>posters/</code></span>
+    <span class="pill"><b>Themes</b>17</span>
+    <span class="pill warn"><b>Automation layer</b><span>Not built</span></span>
+    <span class="pill"><b>Last commit</b>6e8a910 · 2026-06-11 · “status + ai+process”</span>
+  </div>
+
+  <section class="card">
+    <h2><span class="n">1</span>What it does</h2>
+    <p>A tool to generate minimalist, print-quality city map posters. Give it a city and country, it fetches OpenStreetMap road/water/parks data via OSMnx, renders it with matplotlib using a chosen colour theme, and saves a PNG (SVG/PDF via <code>--format</code>). Supports 17 built-in themes, multilingual city labels (Japanese, Arabic, Thai, etc.), custom coordinates, and configurable size. Output goes to <code>posters/</code> named <code>{city}_{theme}_{timestamp}.png</code>.</p>
+  </section>
+
+  <section class="card howto">
+    <h2><span class="n">2</span>How to generate a poster</h2>
+
+    <h3>Single poster (default terracotta theme)</h3>
+<pre><code>uv run ./create_map_poster.py --city "Edmonton" --country "Canada"</code></pre>
+
+    <h3>With a specific theme</h3>
+<pre><code>uv run ./create_map_poster.py --city "Paris" --country "France" --theme noir --distance 10000</code></pre>
+
+    <h3>All 17 themes at once (comparison)</h3>
+<pre><code>uv run ./create_map_poster.py --city "Tokyo" --country "Japan" --all-themes</code></pre>
+
+    <h3>List available themes</h3>
+<pre><code>uv run ./create_map_poster.py --list-themes</code></pre>
+
+    <h3>Custom size (A4 print)</h3>
+<pre><code>uv run ./create_map_poster.py --city "Venice" --country "Italy" --theme blueprint -W 8.3 -H 11.7</code></pre>
+
+    <h3>Ambiguous location — override coordinates</h3>
+<pre><code>uv run ./create_map_poster.py --city "Stanley Park" --country "Canada" -lat 49.3043 -long -123.1443 --theme forest</code></pre>
+
+    <h3>Multilingual labels</h3>
+<pre><code>uv run ./create_map_poster.py --city "Tokyo" --country "Japan" --display-city "東京" --display-country "日本" --font-family "Noto Sans JP" --theme japanese_ink</code></pre>
+
+    <h3>Size reference (300 DPI, fixed)</h3>
+    <table>
+      <tr><th>Target</th><th>Pixels</th><th><code>-W</code> × <code>-H</code> (inches)</th></tr>
+      <tr><td>Instagram post</td><td>1080 × 1080</td><td>3.6 × 3.6</td></tr>
+      <tr><td>Mobile wallpaper</td><td>1080 × 1920</td><td>3.6 × 6.4</td></tr>
+      <tr><td>4K wallpaper</td><td>3840 × 2160</td><td>12.8 × 7.2</td></tr>
+      <tr><td>A4 print</td><td>2480 × 3508</td><td>8.3 × 11.7</td></tr>
+      <tr><td>Default</td><td>3600 × 4800</td><td>12 × 16 (max 20)</td></tr>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2><span class="n">3</span>Available themes</h2>
+    <div class="grid2">
+      <table>
+        <tr><th>Theme</th><th>Style</th></tr>
+        <tr><td><code>terracotta</code></td><td>Mediterranean warmth (default)</td></tr>
+        <tr><td><code>noir</code></td><td>Pure black, white roads</td></tr>
+        <tr><td><code>midnight_blue</code></td><td>Navy + gold roads</td></tr>
+        <tr><td><code>blueprint</code></td><td>Architectural blueprint</td></tr>
+        <tr><td><code>neon_cyberpunk</code></td><td>Dark + electric pink/cyan</td></tr>
+        <tr><td><code>warm_beige</code></td><td>Vintage sepia</td></tr>
+        <tr><td><code>pastel_dream</code></td><td>Soft muted pastels</td></tr>
+        <tr><td><code>japanese_ink</code></td><td>Minimalist ink wash</td></tr>
+        <tr><td><code>emerald</code></td><td>Dark green</td></tr>
+      </table>
+      <table>
+        <tr><th>Theme</th><th>Style</th></tr>
+        <tr><td><code>forest</code></td><td>Deep greens + sage</td></tr>
+        <tr><td><code>ocean</code></td><td>Blues + teals</td></tr>
+        <tr><td><code>sunset</code></td><td>Warm oranges + pinks</td></tr>
+        <tr><td><code>autumn</code></td><td>Burnt oranges + reds</td></tr>
+        <tr><td><code>copper_patina</code></td><td>Oxidized copper</td></tr>
+        <tr><td><code>monochrome_blue</code></td><td>Single blue family</td></tr>
+        <tr><td><code>gradient_roads</code></td><td>Smooth gradient shading</td></tr>
+        <tr><td><code>contrast_zones</code></td><td>High contrast density</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span class="n">4</span>Distance guide</h2>
+    <table>
+      <tr><th>Distance (<code>--distance</code>)</th><th>Best for</th></tr>
+      <tr><td>4000–6000 m</td><td>Small/dense cities (Venice, Amsterdam)</td></tr>
+      <tr><td>8000–12000 m</td><td>Medium cities, downtown focus (Paris, Barcelona)</td></tr>
+      <tr><td>15000–20000 m</td><td>Large metros, full city view (Tokyo, Mumbai)</td></tr>
+    </table>
+    <p style="color:var(--muted);font-size:12px">Default: 18000 m.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="n">5</span>Automation vision vs. current state</h2>
+    <div class="vs">
+      <div class="vision">
+        <h3>Vision (AGENTS.md — not yet built)</h3>
+<pre><code>data/
+  locations.yaml          ← vacation locations catalogue
+scripts/
+  generate_one.py         ← one poster from CLI args
+  generate_trip.py        ← all posters for one trip ID
+  generate_all.py         ← every poster in locations.yaml
+  validate_locations.py   ← check location data
+output/
+  2024-vancouver/
+    vancouver-canada-emerald.png
+  2025-italy/
+    venice-italy-blueprint.png</code></pre>
+        <p style="font-size:12px">Plus: <code>--dry-run</code>, <code>--overwrite</code>, slugged output names, upstream CLI treated as read-only.</p>
+      </div>
+      <div class="reality">
+        <h3>What actually exists (checked 2026-09-17)</h3>
+        <ul>
+          <li><span class="x">✗</span> <code>scripts/</code> — does not exist</li>
+          <li><span class="x">✗</span> <code>data/locations.yaml</code> — does not exist</li>
+          <li><span class="x">✗</span> <code>output/</code> — does not exist</li>
+          <li><span class="x">✗</span> <code>posters/</code> — empty (0 posters; only <code>.DS_Store</code>)</li>
+          <li><span class="ok">✓</span> Base engine <code>create_map_poster.py</code> + 17 themes</li>
+          <li><span class="ok">✓</span> AGENTS.md spec written (schema + script expectations)</li>
+        </ul>
+        <p style="font-size:13px">No automation scripts built. The base engine works — the trip/location layer is planned but not started.</p>
+        <p style="font-size:12px;color:var(--muted)">No commits since 2026-06-11 (~3 months). Diary last entry 2026-06-08.</p>
+      </div>
+    </div>
+    <p class="conclusion"><b>Conclusion:</b> The tool works as a one-off CLI command. The vacation-poster batch workflow (AGENTS.md) is a good next session goal if poster generation becomes a regular activity.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="n">6</span>Gotchas</h2>
+    <div class="gotchas">
+      <div class="gotcha"><b>Requires internet</b>Nominatim (geocoding) and OSMnx (road data) both hit the internet on each run. No offline mode.</div>
+      <div class="gotcha"><b>Large distance = slow</b><code>--distance 20000</code> fetches a lot of OSM data. For quick previews use a smaller distance or small <code>-W/-H</code> — DPI is hardcoded at 300 (no CLI flag).</div>
+      <div class="gotcha"><b>Ambiguous cities</b>Small towns or landmarks may not geocode correctly. Use <code>--latitude</code>/<code>--longitude</code> to override.</div>
+      <div class="gotcha"><b>posters/ is NOT gitignored</b><code>git check-ignore</code> finds no rule. Don’t commit experiments — add <code>posters/*</code> to <code>.gitignore</code> (per AGENTS.md).</div>
+      <div class="gotcha"><b>Nominatim rate limits</b>Running <code>--all-themes</code> across several cities in a loop — add delays to avoid rate-limiting.</div>
+      <div class="gotcha"><b>README image link broken</b>README references <code>posters/edmonton.png</code>, which isn’t in the repo.</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span class="n">7</span>Next session — what to do</h2>
+    <div class="paths">
+      <div class="path a">
+        <h3 style="margin-top:0">Path A — just want a poster now</h3>
+        <p>Run a command from section 2 with your chosen city and theme. Done in 30–60 seconds (longer at large distances).</p>
+      </div>
+      <div class="path b">
+        <h3 style="margin-top:0">Path B — build the vacation automation layer</h3>
+        <ol style="margin:4px 0;padding-left:18px">
+          <li>Create <code>data/locations.yaml</code> with 3–5 known trip locations</li>
+          <li>Write <code>scripts/generate_trip.py</code> to batch-generate from the YAML</li>
+          <li>Test with one trip first (<code>--dry-run</code>)</li>
+          <li>Read AGENTS.md in full — schema and script expectations already written</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>Generated 2026-09-17 · maptoposter · Personal Python utility · derived from README.md, AGENTS.md, diary, git log</footer>
+
+</body>
+</html>
