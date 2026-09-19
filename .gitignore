@@ -33,3 +33,6 @@ test_venv/
 htmlcov/
 .coverage
 .pytest_cache/
+
+# Trip profiles (private: dates, hotel addresses). Repo is public.
+trips/
