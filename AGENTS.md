@@ -93,6 +93,18 @@ Do not do these unless explicitly asked:
 
 This is a scripting and automation project. Keep it boring.
 
+### Approved exception: trip site generator (2026-09-18)
+
+Rob approved one scoped exception: a CLI that turns a trip profile into a static shareable website.
+
+- Lives in `tripsite/`. `create_map_poster.py` stays untouched (call it via CLI for a hero image if needed).
+- Still CLI-only. The only "web" is the generated static output (`dist/<slug>/`). No local server app, no UI, no export button — the output folder *is* the export.
+- Trip profiles live in `trips/` (gitignored — the repo is a public fork and profiles hold dates/hotel addresses). Never commit trip data.
+- Privacy defaults: hotel shown approximately, `noindex`, random-ish slug, site behind Cloudflare Access (email OTP) when shared.
+- Hosting target: Cloudflare Pages on `worldcities.ca`.
+- Accepted limit: the approximate hotel circle can be narrowed to a 150–250 m ring by anyone who reads this public code. Rob accepts it: sites are invite-only, and it's fine if invitees know the hotel. `pyyaml==6.0.3` pinned. Stay details leaking into the output fail the build.
+- The other non-goals above still apply (no database, no auth code in the repo, no generic planning platform).
+
 ## Preferred workflow
 
 When asked to make changes:
